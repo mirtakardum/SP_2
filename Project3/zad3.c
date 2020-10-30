@@ -31,7 +31,7 @@ int main() {
 
 	printf("Opcije:\nNova osoba na pocetak - P\nNova osoba na kraj - K\nIspis - I\nPretraga - S\nIzbrisi - B\nIzadji - E\n");
 	while (1) {
-		printf("Unesite sto zelite\n");
+		printf("Unesite sto zelite.\n");
 
 		scanf(" %c", &op);
 		op = toupper(op);
@@ -40,13 +40,13 @@ int main() {
 		case 'P':
 			p = novaOsoba();
 			unosPocetak(&head, p);
-			printf("Unos na pocetak obavljen\n");
+			printf("Unos na pocetak obavljen.\n");
 			break;
 
 		case 'K':
 			p = novaOsoba();
 			unosKraj(&head, p);
-			printf("Unos na kraj obavljen\n");
+			printf("Unos na kraj obavljen.\n");
 			break;
 
 		case 'I':
@@ -54,20 +54,20 @@ int main() {
 			break;
 
 		case 'S':
-			printf("Unesite prezime trazene osobe\n");
+			printf("Unesite prezime trazene osobe:\n");
 			scanf("%s", pom);
 			trazen = pronadji(&head, pom);
 			if (trazen == NULL)
-				printf("\nGreska; nema te osobe\n");
+				printf("\nGreska, te osobe nema.\n");
 			else
 				printf("%s %s %d\n", trazen->ime, trazen->prezime, trazen->god);
 			break;
 
 		case 'B':
-			printf("Unesite ime osobe koju zelite izbrisati\n");
+			printf("Unesite ime osobe koju zelite izbrisati:\n");
 			scanf("%s", pom);
 			izbrisi(&head, pom);
-			printf("Osoba (%s) uspijesno izbrisana\n", pom);
+			printf("Osoba (%s) uspijesno izbrisana.\n", pom);
 			break;
 
 		case 'E':
@@ -75,7 +75,7 @@ int main() {
 			break;
 
 		default:
-			printf("Greska; upisite jedno od gore zadanih slova");
+			printf("Greska; upisite jedno od gore zadanih slova.");
 			break;
 
 		}
@@ -88,7 +88,7 @@ Pozicija novaOsoba() {
 	Pozicija p;
 
 	p = (Pozicija)malloc(sizeof(struct osoba));
-	printf("Unesite ime, prezime i godinu rodjenja\n");
+	printf("Unesite ime, prezime i godinu rodjenja:\n");
 	scanf(" %s %s %d", &p->ime, &p->prezime, &p->god);
 	p->next = NULL;
 	return p;
