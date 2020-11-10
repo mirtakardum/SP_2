@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARININGS
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -6,9 +8,10 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define MAX 50
 
+struct osoba;
 typedef struct osoba* Pozicija;
 
-struct osoba {
+typedef struct osoba {
 	char ime[MAX];
 	char prezime[MAX];
 	int god;
@@ -24,59 +27,61 @@ void izbrisi(Pozicija, char[MAX]);
 
 int main() {
 
-	Pozicija head, p, trazen;
-	head = p = trazen = NULL;
+	_os head;
+	head.next = NULL;
+	Pozicija p = NULL;
+	Pozicija trazen = NULL;
 	char op = ' ';
 	char pom[MAX] = " ";
 
 	printf("Opcije:\nNova osoba na pocetak - P\nNova osoba na kraj - K\nIspis - I\nPretraga - S\nIzbrisi - B\nIzadji - E\n");
 	while (1) {
-		printf("Unesite sto zelite.\n");
+		printf("Unesite sto zelite\n");
 
 		scanf(" %c", &op);
 		op = toupper(op);
 		switch (op) {
+			
+			case 'P':
+				p = novaOsoba();
+				unosPocetak(&head, p);
+				printf("Unos na pocetak obavljen\n");
+				break;
 
-		case 'P':
-			p = novaOsoba();
-			unosPocetak(&head, p);
-			printf("Unos na pocetak obavljen.\n");
-			break;
+			case 'K':
+				p = novaOsoba();
+				unosKraj(&head, p);
+				printf("Unos na kraj obavljen\n");
+				break;
 
-		case 'K':
-			p = novaOsoba();
-			unosKraj(&head, p);
-			printf("Unos na kraj obavljen.\n");
-			break;
+			case 'I':
+				ispis(&head);
+				break;
 
-		case 'I':
-			ispis(&head);
-			break;
+			case 'S':
+				printf("Unesite prezime trazene osobe\n");
+				scanf("%s", pom);
+				trazen = pronadji(&head, pom);
+				if (trazen == NULL)
+					printf("\nGreska; nema te osobe\n");
+				else
+					printf("%s %s %d\n", trazen->ime, trazen->prezime, trazen->god);
+				break;
 
-		case 'S':
-			printf("Unesite prezime trazene osobe:\n");
-			scanf("%s", pom);
-			trazen = pronadji(&head, pom);
-			if (trazen == NULL)
-				printf("\nGreska, te osobe nema.\n");
-			else
-				printf("%s %s %d\n", trazen->ime, trazen->prezime, trazen->god);
-			break;
+			case 'B':
+				printf("Unesite ime osobe koju zelite izbrisati\n");
+				scanf("%s", pom);
+				izbrisi(&head, pom);
+				printf("Osoba (%s) uspijesno izbrisana\n", pom);
+				break;
 
-		case 'B':
-			printf("Unesite ime osobe koju zelite izbrisati:\n");
-			scanf("%s", pom);
-			izbrisi(&head, pom);
-			printf("Osoba (%s) uspijesno izbrisana.\n", pom);
-			break;
+			case 'E':
+				return 0;
+				break;
 
-		case 'E':
-			return 0;
-			break;
-
-		default:
-			printf("Greska; upisite jedno od gore zadanih slova.");
-			break;
+			default:
+				printf("Greska; upisite jedno od gore zadanih slova");
+				break;
 
 		}
 	}
@@ -84,11 +89,11 @@ int main() {
 }
 
 Pozicija novaOsoba() {
-
-	Pozicija p;
+	
+	Pozicija p = NULL;
 
 	p = (Pozicija)malloc(sizeof(struct osoba));
-	printf("Unesite ime, prezime i godinu rodjenja:\n");
+	printf("Unesite ime, prezime i godinu rodjenja\n");
 	scanf(" %s %s %d", &p->ime, &p->prezime, &p->god);
 	p->next = NULL;
 	return p;
@@ -102,15 +107,17 @@ void unosPocetak(Pozicija head, Pozicija p) {
 }
 
 void unosKraj(Pozicija q, Pozicija p) {
-
-
+	
+	//pronalazi zadnji clan
 	while (q->next != NULL) {
 		q = q->next;
 	}
 	unosPocetak(q, p);
 }
 
+
 Pozicija pronadji(Pozicija q, char prez[MAX]) {
+
 
 	while (q->next != NULL && strcmp(q->prezime, prez))
 		q = q->next;
